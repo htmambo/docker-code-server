@@ -4,6 +4,14 @@ FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
 ARG BUILD_DATE
 ARG VERSION
 ARG CODE_RELEASE
+# 这里PUID对应的是你本机的用户ID，PGID对应的是你本机的用户组ID
+ENV PUID="1026"
+ENV PGID="100"
+ENV TZ="Asia/Shanghai"
+ENV PASSWORD="123456"
+ENV SUDO_PASSWORD="123456"
+ENV DEFAULT_WORKSPACE="/config/workspace"
+
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="aptalca"
 
@@ -13,26 +21,25 @@ ENV HOME="/config"
 
 RUN \
   echo "**** install runtime dependencies ****" && \
+  echo " ---- Install php-cs-fixer ----" && \
+  curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.38.0/php-cs-fixer.phar -o /tmp/php-cs-fixer && \
+  chmod a+x /tmp/php-cs-fixer && \
+  mv /tmp/php-cs-fixer /usr/local/bin/php-cs-fixer && \
   apt-get update && \
-  apt-get install -y \
-    git \
-    jq \
+  apt-get install -y --no-install-recommends \
+    php-cli php-mysql php-curl php-dev php-gd php-mbstring php-xml php-xmlrpc php-zip php-bcmath php-dom && \
+  apt-get install -y git subversion php-codesniffer \
+    vim wget jq \
     libatomic1 \
     nano \
     net-tools \
     netcat \
     sudo && \
-  echo "**** install code-server ****" && \
-  if [ -z ${CODE_RELEASE+x} ]; then \
-    CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest \
-      | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||'); \
-  fi && \
-  mkdir -p /app/code-server && \
-  curl -o \
-    /tmp/code-server.tar.gz -L \
-    "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz" && \
-  tar xf /tmp/code-server.tar.gz -C \
-    /app/code-server --strip-components=1 && \
+  echo " ---- Install Composer ---- " && \
+  php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" && \
+  php /tmp/composer-setup.php && \
+  cp composer.phar /usr/local/bin/composer && \
+  rm -rf composer.phar && \
   echo "**** clean up ****" && \
   apt-get clean && \
   rm -rf \
@@ -42,7 +49,7 @@ RUN \
     /var/tmp/*
 
 # add local files
-COPY /root /
+COPY ./root /
 
 # ports and volumes
 EXPOSE 8443
