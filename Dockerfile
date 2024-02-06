@@ -15,7 +15,7 @@ ENV DEFAULT_WORKSPACE="/config/workspace"
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="aptalca"
 
-# environment settings
+# environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
@@ -34,7 +34,7 @@ RUN \
     nano \
     net-tools \
     netcat \
-    sudo && \
+    sudo zsh && \
   echo " ---- Install Composer ---- " && \
   php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" && \
   php /tmp/composer-setup.php && \
@@ -47,9 +47,7 @@ RUN \
     /tmp/* \
     /var/lib/apt/lists/* \
     /var/tmp/* && \
-  echo "**** install zsh and oh-my-zsh ****" && \
-  apt-get update && \
-  apt-get install -y zsh && \
+  echo "**** install oh-my-zsh ****" && \
   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
   chsh -s /bin/zsh
 
