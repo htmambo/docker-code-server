@@ -46,7 +46,12 @@ RUN \
     /config/* \
     /tmp/* \
     /var/lib/apt/lists/* \
-    /var/tmp/*
+    /var/tmp/* && \
+  echo "**** install zsh and oh-my-zsh ****" && \
+  apt-get update && \
+  apt-get install -y zsh && \
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+  chsh -s /bin/zsh
 
 # add local files
 COPY ./root /
