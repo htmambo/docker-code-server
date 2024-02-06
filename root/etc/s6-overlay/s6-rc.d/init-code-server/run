@@ -19,8 +19,14 @@ fi
 
 [[ ! -f /config/.bashrc ]] && \
     cp /root/.bashrc /config/.bashrc
+[[ ! -f /config/.zshrc ]] && \
+    cp /etc/.zshrc /config/.zshrc
 [[ ! -f /config/.profile ]] && \
     cp /root/.profile /config/.profile
+[[ ! -f /config/.oh-my-zsh/oh-my-zsh.sh ]] && \
+    cd /config && \
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    sed -i '1iZSH_DISABLE_COMPFIX="true"' /config/.zshrc
 
 # fix permissions (ignore contents of /config/workspace)
 find /config -path /config/workspace -prune -o -exec chown abc:abc {} +
