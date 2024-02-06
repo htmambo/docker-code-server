@@ -47,6 +47,6 @@ config/.zsh*
 config/checkhosts.sh
 config/.bashrc
 config/.profile
-config/.zcompdump config/.zcompdump-1f77172bd885-5.8.1 config/.zcompdump-1f77172bd885-5.8.1.zwc config/.zcompdump-6cd2c3d92416-5.8.1 config/.zcompdump-6cd2c3d92416-5.8.1.zwc
+config/.zcompdump*
 config/.viminfo
-config/.oh-my-zsh
+config/.oh-my-zsh/
