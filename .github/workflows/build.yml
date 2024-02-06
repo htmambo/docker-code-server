@@ -1,0 +1,36 @@
+name: Build and compress Docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: false
+          tags: my_image:my_tag
+          load: true
+
+      - name: Save Docker image
+        run: |
+          docker save codeserver:latest > codeserver.tar
+          gzip codeserver.tar
+
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v2
+        with:
+          name: codeserver.tar.gz
+          path: codeserver.tar.gz
