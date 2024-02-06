@@ -19,7 +19,7 @@ jobs:
         with:
           context: .
           push: false
-          tags: my_image:my_tag
+          tags: codeserver:latest
           load: true
 
       - name: Save Docker image
