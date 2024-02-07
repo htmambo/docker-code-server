@@ -24,11 +24,12 @@ jobs:
 
       - name: Save Docker image
         run: |
-          docker save phpcodeserver:latest > phpcodeserver.tar
+          docker save phpcodeserver:latest > image.tar
 
       - name: Add additional files
         run: |
-          tar -rf phpcodeserver.tar app config
+          ls -al
+          tar -cf phpcodeserver.tar image.tar app config
 
       - name: Compress Docker image and additional files
         run: |
