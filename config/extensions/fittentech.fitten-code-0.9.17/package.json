@@ -1,0 +1,360 @@
+{
+	"publisher": "FittenTech",
+	"name": "Fitten-Code",
+	"version": "0.9.17",
+	"displayName": "Fitten Code",
+	"description": "GPT Powered Automatic Code Generation and Completion for Multiple Languages.",
+	"keywords": [
+		"ai",
+		"chatgpt",
+		"gpt",
+		"fittenai",
+		"codex",
+		"copilot",
+		"code explanation"
+	],
+	"categories": [
+		"Machine Learning",
+		"Programming Languages",
+		"Linters",
+		"Formatters",
+		"Data Science",
+		"Education",
+		"Testing"
+	],
+	"icon": "media/extension-icon.png",
+	"galleryBanner": {
+		"color": "#000000",
+		"theme": "dark"
+	},
+	"license": "SEE LICENSE IN LICENSE.txt",
+	"engines": {
+		"node": ">=18",
+		"vscode": "^1.82.3"
+	},
+	"homepage": "https://code.fittentech.com",
+	"extensionKind": [
+		"workspace"
+	],
+	"main": "./extension/dist/extension.js",
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"contributes": {
+		"icons": {
+			"distro-ubuntu": {
+				"description": "Ubuntu icon",
+				"default": {
+					"fontPath": "media/fontello.woff",
+					"fontCharacter": "\\E001"
+				}
+			},
+			"com-disable": {
+				"description": "disable icon",
+				"default": {
+					"fontPath": "media/disable.woff",
+					"fontCharacter": "\\E001"
+				}
+			}
+		},
+		"commands": [
+			{
+				"command": "fittencode.startChat",
+				"title": "开始对话 💬",
+				"category": "fittencode",
+				"icon": "$(comment-discussion)"
+			},
+			{
+				"command": "fittencode.editCode",
+				"title": "编辑代码 🖊️",
+				"category": "fittencode",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "fittencode.explainCode",
+				"title": "解释代码 💬",
+				"category": "fittencode",
+				"icon": "$(comment-discussion)"
+			},
+			{
+				"command": "fittencode.generateCode",
+				"title": "生成代码 🪄",
+				"category": "fittencode",
+				"icon": "$(wand)"
+			},
+			{
+				"command": "fittencode.generateUnitTest",
+				"title": "生成单元测试 🪄",
+				"category": "fittencode",
+				"icon": "$(beaker)"
+			},
+			{
+				"command": "fittencode.documentCode",
+				"title": "生成注释 🪄",
+				"category": "fittencode",
+				"icon": "$(beaker)"
+			},
+			{
+				"command": "fittencode.findBugs",
+				"title": "查找Bug 💬",
+				"category": "fittencode",
+				"icon": "$(bug)"
+			},
+			{
+				"command": "fittencode.startCustomChat",
+				"title": "自定义对话… 💬",
+				"category": "fittencode",
+				"icon": "$(comment-draft)"
+			},
+			{
+				"command": "fittencode.touchBar.startChat",
+				"category": "fittencode",
+				"title": "💬"
+			},
+			{
+				"command": "fittencode.showChatPanel",
+				"title": "Show Chat Panel 💬",
+				"category": "fittencode",
+				"icon": "$(comment-discussion)"
+			},
+			{
+				"command": "fittencode.getStarted",
+				"title": "登出",
+				"category": "fittencode",
+				"icon": "$(log-out)"
+			},
+			{
+				"command": "fittencode.reloadTemplates",
+				"title": "Reload Templates",
+				"category": "fittencode",
+				"icon": "$(sync)"
+			},
+			{
+				"command": "fittencode.showLogs",
+				"title": "Show Logs",
+				"category": "fittencode",
+				"icon": "$(output)"
+			},
+			{
+				"command": "fittencode.indexRepository",
+				"title": "Index Repository",
+				"category": "fittencode",
+				"enablement": "config.fittencode.indexRepository.enabled"
+			}
+		],
+		"configuration": {
+			"title": "FittenCode",
+			"properties": {
+				"fittencode.disableSpecificInlineCompletion.suffixes": {
+					"type": "string",
+					"default": "",
+					"markdownDescription": "Disable auto-completion for some specific file suffixes by entering them below, and separate each suffix with a semicolon. For instance, type: \"md;py\"",
+					"scope": "application"
+				},
+				"fittencode.inlineCompletion.enable": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Enable inline code completion.",
+					"scope": "application"
+				},
+				"fittencode.syntaxHighlighting.useVisualStudioCodeColors": {
+					"type": "boolean",
+					"default": false,
+					"markdownDescription": "Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Only applies to newly opened diffs.",
+					"scope": "application"
+				},
+				"fittencode.indexRepository.enabled": {
+					"type": "boolean",
+					"default": false,
+					"markdownDescription": "Enable the command to index your repository and give more context to the AI model. Experimental.",
+					"scope": "application"
+				},
+				"fittencode.action.editCode.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				},
+				"fittencode.action.startChat.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				},
+				"fittencode.action.explainCode.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				},
+				"fittencode.action.findBugs.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				},
+				"fittencode.action.generateUnitTest.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				},
+				"fittencode.action.documentCode.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				},
+				"fittencode.action.startCustomChat.showInEditorContextMenu": {
+					"type": "boolean",
+					"default": true,
+					"markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+					"scope": "application"
+				}
+			}
+		},
+		"keybindings": [
+			{
+				"key": "Ctrl+down",
+				"command": "editor.action.inlineSuggest.acceptNextLine",
+				"when": "inlineSuggestionVisible"
+			},
+			{
+				"command": "fittencode.startChat",
+				"when": "isMac",
+				"key": "Ctrl+Cmd+c"
+			},
+			{
+				"command": "fittencode.startChat",
+				"when": "!isMac",
+				"key": "Ctrl+Alt+c"
+			},
+			{
+				"command": "fittencode.editCode",
+				"when": "isMac",
+				"key": "Ctrl+Cmd+e"
+			},
+			{
+				"command": "fittencode.editCode",
+				"when": "!isMac",
+				"key": "Ctrl+Alt+e"
+			},
+			{
+				"command": "fittencode.generateCode",
+				"when": "isMac",
+				"key": "Ctrl+Cmd+g"
+			},
+			{
+				"command": "fittencode.generateCode",
+				"when": "!isMac",
+				"key": "Ctrl+Alt+g"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "fittencode.startChat",
+					"when": "view == fittencode.chat",
+					"group": "navigation@1"
+				},
+				{
+					"command": "fittencode.editCode",
+					"when": "view == fittencode.chat",
+					"group": "navigation@2"
+				},
+				{
+					"command": "fittencode.generateCode",
+					"when": "view == fittencode.chat",
+					"group": "navigation@3"
+				},
+				{
+					"command": "fittencode.getStarted",
+					"when": "view == fittencode.chat",
+					"group": "navigation@9"
+				}
+			],
+			"touchBar": [
+				{
+					"command": "fittencode.touchBar.startChat",
+					"group": "fittencode"
+				}
+			],
+			"commandPalette": [
+				{
+					"command": "fittencode.touchBar.startChat",
+					"when": "false"
+				}
+			],
+			"editor/context": [
+				{
+					"command": "fittencode.startChat",
+					"group": "fittencode",
+					"when": "config.fittencode.action.startChat.showInEditorContextMenu && editorHasSelection"
+				},
+				{
+					"command": "fittencode.editCode",
+					"group": "fittencode",
+					"when": "config.fittencode.action.editCode.showInEditorContextMenu && editorHasSelection"
+				},
+				{
+					"command": "fittencode.explainCode",
+					"group": "fittencode",
+					"when": "config.fittencode.action.explainCode.showInEditorContextMenu && editorHasSelection"
+				},
+				{
+					"command": "fittencode.findBugs",
+					"group": "fittencode",
+					"when": "config.fittencode.action.findBugs.showInEditorContextMenu && editorHasSelection"
+				},
+				{
+					"command": "fittencode.generateUnitTest",
+					"group": "fittencode",
+					"when": "config.fittencode.action.generateUnitTest.showInEditorContextMenu && editorHasSelection"
+				},
+				{
+					"command": "fittencode.documentCode",
+					"group": "fittencode",
+					"when": "config.fittencode.action.documentCode.showInEditorContextMenu && editorHasSelection"
+				}
+			]
+		},
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "fittencode",
+					"title": "fittencode",
+					"icon": "media/extension-icon.png"
+				}
+			]
+		},
+		"views": {
+			"fittencode": [
+				{
+					"id": "fittencode.chat",
+					"name": "Chat",
+					"type": "webview"
+				}
+			]
+		},
+		"walkthroughs": [
+			{
+				"id": "fittencode",
+				"title": "fittencode",
+				"description": "Your AI Code Assistant in Visual Studio Code",
+				"steps": [
+					{
+						"id": "setup",
+						"title": "Setup fittencode",
+						"description": "login to get started.",
+						"media": {
+							"markdown": "walkthrough/setup.md"
+						}
+					}
+				]
+			}
+		]
+	},
+	"__metadata": {
+		"installedTimestamp": 1705396892656
+	}
+}

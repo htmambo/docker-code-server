@@ -19,14 +19,8 @@ fi
 
 [[ ! -f /config/.bashrc ]] && \
     cp /root/.bashrc /config/.bashrc
-[[ ! -f /config/.zshrc ]] && \
-    cp /etc/.zshrc /config/.zshrc
 [[ ! -f /config/.profile ]] && \
     cp /root/.profile /config/.profile
-[[ ! -f /config/.oh-my-zsh/oh-my-zsh.sh ]] && \
-    cd /config && \
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-    sed -i '1iZSH_DISABLE_COMPFIX="true"' /config/.zshrc
 
 # fix permissions (ignore contents of /config/workspace)
 find /config -path /config/workspace -prune -o -exec chown abc:abc {} +
@@ -34,4 +28,33 @@ chown abc:abc /config/workspace
 chmod 700 /config/.ssh
 if [ -n "$(ls -A /config/.ssh)" ]; then
     chmod 600 /config/.ssh/*
+fi
+
+[[ ! -f /config/.zshrc ]] && \
+    cp /etc/.zshrc /config/.zshrc
+[[ ! -f /config/.oh-my-zsh/oh-my-zsh.sh ]] && \
+    cd /config && \
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+    sed -i '1iZSH_DISABLE_COMPFIX="true"' /config/.zshrc
+
+if [ ! -f /app/code-server/bin/code-server ]; then
+    # 文件名用于存储上次下载的版本号
+    VERSION_FILE="/config/.last_downloaded_version"
+
+    # 获取最新版本号
+    CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||')
+    echo "The latest version number is: $CODE_RELEASE"
+    # 下载最新版本的 code-server
+    curl -o /tmp/code-server.tar.gz -L "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz"
+
+    # 如果下载成功，那么更新版本文件
+    if [ $? -eq 0 ]; then
+        rm -rf /app/code-server
+        mkdir -p /app/code-server
+        tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1
+        echo $CODE_RELEASE > $VERSION_FILE
+        echo "Successfully downloaded code-server version $CODE_RELEASE and updated the version file."
+    else
+        echo "Failed to download code-server version $CODE_RELEASE."
+    fi
 fi

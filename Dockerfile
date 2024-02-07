@@ -11,6 +11,8 @@ ENV TZ="Asia/Shanghai"
 ENV PASSWORD="123456"
 ENV SUDO_PASSWORD="123456"
 ENV DEFAULT_WORKSPACE="/config/workspace"
+#ENV https_proxy=http://192.168.17.9:7890
+#ENV http_proxy=http://192.168.17.9:7890
 
 LABEL build_version="Linuxserver.io version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="aptalca"

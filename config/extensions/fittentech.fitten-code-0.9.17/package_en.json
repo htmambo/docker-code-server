@@ -1,0 +1,394 @@
+{
+  "publisher": "FittenTech",
+  "name": "fittencode-vscode",
+  "version": "0.0.5",
+  "displayName": "Fitten Code vscode",
+  "description": "GPT Powered Automatic Code Generation and Completion for Multiple Languages.",
+  "keywords": [
+    "ai",
+    "chatgpt",
+    "gpt",
+    "fittenai",
+    "codex",
+    "copilot",
+    "code explanation"
+  ],
+  "categories": [
+    "Machine Learning",
+    "Programming Languages",
+    "Linters",
+    "Formatters",
+    "Data Science",
+    "Education",
+    "Testing"
+  ],
+  "icon": "media/extension-icon.png",
+  "galleryBanner": {
+    "color": "#000000",
+    "theme": "dark"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "engines": {
+    "node": ">=18",
+    "vscode": "^1.72.0"
+  },
+  "homepage": "https://github.com/fittencode-ai/fittencode-vscode",
+  "repository": "https://github.com/fittencode-ai/fittencode-vscode",
+  "bugs": "https://github.com/fittencode-ai/fittencode-vscode/issues",
+  "extensionKind": ["workspace"],
+  "main": "./extension/dist/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      {
+        "command": "fittencode.enterFittenAIApiKey",
+        "category": "fittencode",
+        "title": "Enter FittenAI API key"
+      },
+      {
+        "command": "fittencode.clearFittenAIApiKey",
+        "category": "fittencode",
+        "title": "Clear FittenAI API key"
+      },
+      {
+        "command": "fittencode.startChat",
+        "title": "Start Chat 💬",
+        "category": "fittencode",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "fittencode.editCode",
+        "title": "Edit Code 🖊️",
+        "category": "fittencode",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "fittencode.explainCode",
+        "title": "Explain Code 💬",
+        "category": "fittencode",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "fittencode.generateCode",
+        "title": "Generate Code 🪄",
+        "category": "fittencode",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "fittencode.generateUnitTest",
+        "title": "Generate Unit Test 🪄",
+        "category": "fittencode",
+        "icon": "$(beaker)"
+      },
+      {
+        "command": "fittencode.diagnoseErrors",
+        "title": "Diagnose Errors 💬",
+        "category": "fittencode",
+        "icon": "$(search-fuzzy)"
+      },
+      {
+        "command": "fittencode.findBugs",
+        "title": "Find Bugs 💬",
+        "category": "fittencode",
+        "icon": "$(bug)"
+      },
+      {
+        "command": "fittencode.startCustomChat",
+        "title": "Start Custom Chat… 💬",
+        "category": "fittencode",
+        "icon": "$(comment-draft)"
+      },
+      {
+        "command": "fittencode.touchBar.startChat",
+        "category": "fittencode",
+        "title": "💬"
+      },
+      {
+        "command": "fittencode.showChatPanel",
+        "title": "Show Chat Panel 💬",
+        "category": "fittencode",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "fittencode.getStarted",
+        "title": "logout",
+        "category": "fittencode",
+        "icon": "$(log-out)"
+      },
+      {
+        "command": "fittencode.reloadTemplates",
+        "title": "Reload Templates",
+        "category": "fittencode",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "fittencode.showLogs",
+        "title": "Show Logs",
+        "category": "fittencode",
+        "icon": "$(output)"
+      },
+      {
+        "command": "fittencode.indexRepository",
+        "title": "Index Repository",
+        "category": "fittencode",
+        "enablement": "config.fittencode.indexRepository.enabled"
+      }
+    ],
+    "configuration": {
+      "title": "FittenCode",
+      "properties": {
+        "fittencode.syntaxHighlighting.useVisualStudioCodeColors": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Use the Visual Studio Code Theme colors for syntax highlighting in the diff viewer. Might not work with all themes. Only applies to newly opened diffs.",
+          "scope": "application"
+        },
+        "fittencode.indexRepository.enabled": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Enable the command to index your repository and give more context to the AI model. Experimental.",
+          "scope": "application"
+        },
+        "fittencode.action.editCode.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.action.startChat.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.action.explainCode.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.action.findBugs.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.action.generateUnitTest.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.action.diagnoseErrors.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.action.startCustomChat.showInEditorContextMenu": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show this action in the editor context menu, when you right-click on the code.",
+          "scope": "application"
+        },
+        "fittencode.fittenAI.baseUrl": {
+          "type": "string",
+          "default": "http://192.168.10.0:8200",
+          "markdownDescription": "Specify the URL to the FittenAI API. If you are using a proxy, you can set it here.",
+          "scope": "application"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "key": "shift+tab",
+        "command": "editor.action.inlineSuggest.acceptNextLine",
+        "when": "inlineSuggestionVisible"
+      },
+      {
+        "command": "fittencode.startChat",
+        "when": "isMac",
+        "key": "Ctrl+Cmd+c"
+      },
+      {
+        "command": "fittencode.startChat",
+        "when": "!isMac",
+        "key": "Ctrl+Alt+c"
+      },
+      {
+        "command": "fittencode.editCode",
+        "when": "isMac",
+        "key": "Ctrl+Cmd+e"
+      },
+      {
+        "command": "fittencode.editCode",
+        "when": "!isMac",
+        "key": "Ctrl+Alt+e"
+      },
+      {
+        "command": "fittencode.generateCode",
+        "when": "isMac",
+        "key": "Ctrl+Cmd+g"
+      },
+      {
+        "command": "fittencode.generateCode",
+        "when": "!isMac",
+        "key": "Ctrl+Alt+g"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "fittencode.startChat",
+          "when": "view == fittencode.chat",
+          "group": "navigation@1"
+        },
+        {
+          "command": "fittencode.editCode",
+          "when": "view == fittencode.chat",
+          "group": "navigation@2"
+        },
+        {
+          "command": "fittencode.generateCode",
+          "when": "view == fittencode.chat",
+          "group": "navigation@3"
+        },
+        {
+          "command": "fittencode.getStarted",
+          "when": "view == fittencode.chat",
+          "group": "navigation@9"
+        }
+      ],
+      "touchBar": [
+        {
+          "command": "fittencode.touchBar.startChat",
+          "group": "fittencode"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "fittencode.touchBar.startChat",
+          "when": "false"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "fittencode.startChat",
+          "group": "fittencode",
+          "when": "config.fittencode.action.startChat.showInEditorContextMenu && editorHasSelection"
+        },
+        {
+          "command": "fittencode.editCode",
+          "group": "fittencode",
+          "when": "config.fittencode.action.editCode.showInEditorContextMenu && editorHasSelection"
+        },
+        {
+          "command": "fittencode.explainCode",
+          "group": "fittencode",
+          "when": "config.fittencode.action.explainCode.showInEditorContextMenu && editorHasSelection"
+        },
+        {
+          "command": "fittencode.findBugs",
+          "group": "fittencode",
+          "when": "config.fittencode.action.findBugs.showInEditorContextMenu && editorHasSelection"
+        },
+        {
+          "command": "fittencode.generateUnitTest",
+          "group": "fittencode",
+          "when": "config.fittencode.action.generateUnitTest.showInEditorContextMenu && editorHasSelection"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "fittencode",
+          "title": "fittencode",
+          "icon": "media/extension-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "fittencode": [
+        {
+          "id": "fittencode.chat",
+          "name": "Chat",
+          "type": "webview"
+        }
+      ]
+    },
+    "walkthroughs": [
+      {
+        "id": "fittencode",
+        "title": "fittencode",
+        "description": "Your AI Chat Assistant in Visual Studio Code",
+        "steps": [
+          {
+            "id": "setup",
+            "title": "Setup fittencode",
+            "description": "[Enter your FittenAI API key](command:fittencode.enterFittenAIApiKey) to get started.",
+            "media": {
+              "markdown": "walkthrough/setup.md"
+            }
+          },
+          {
+            "id": "chat",
+            "title": "AI Chat",
+            "description": "Chat with fittencode about your code and software development topics.",
+            "media": {
+              "markdown": "walkthrough/chat.md"
+            }
+          },
+          {
+            "id": "generate-code",
+            "title": "Generate Code",
+            "description": "Generate code by instructing fittencode.",
+            "media": {
+              "markdown": "walkthrough/generate-code.md"
+            }
+          },
+          {
+            "id": "edit-code",
+            "title": "Edit Code",
+            "description": "Change the selected code by instructing fittencode to create an edit.",
+            "media": {
+              "markdown": "walkthrough/edit-code.md"
+            }
+          },
+          {
+            "id": "other-actions",
+            "title": "Other Actions",
+            "description": "Generate unit tests, explain code, find bugs, and more.",
+            "media": {
+              "markdown": "walkthrough/other-actions.md"
+            }
+          },
+          {
+            "id": "fittencode-templates",
+            "title": "fittencode Templates",
+            "description": "Craft your own chat templates!",
+            "media": {
+              "markdown": "walkthrough/fittencode-templates.md"
+            }
+          },
+          {
+            "id": "tips-and-tricks",
+            "title": "Tips and Tricks",
+            "description": "How to get the most out of fittencode.",
+            "media": {
+              "markdown": "walkthrough/tips-and-tricks.md"
+            }
+          },
+          {
+            "id": "project",
+            "title": "Project",
+            "description": "Learn more about the fittencode open source project.",
+            "media": {
+              "markdown": "walkthrough/project.md"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
