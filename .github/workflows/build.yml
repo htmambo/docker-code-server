@@ -19,16 +19,23 @@ jobs:
         with:
           context: .
           push: false
-          tags: codeserver:latest
+          tags: phpcodeserver:latest
           load: true
 
       - name: Save Docker image
         run: |
-          docker save codeserver:latest > codeserver.tar
-          gzip codeserver.tar
+          docker save phpcodeserver:latest > phpcodeserver.tar
+
+      - name: Add additional files
+        run: |
+          tar -rf phpcodeserver.tar app config
+
+      - name: Compress Docker image and additional files
+        run: |
+          gzip phpcodeserver.tar
 
       - name: Upload Docker image
         uses: actions/upload-artifact@v4
         with:
-          name: codeserver.tar.gz
-          path: codeserver.tar.gz
+          name: phpcodeserver.tar.gz
+          path: phpcodeserver.tar.gz
