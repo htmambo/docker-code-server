@@ -29,7 +29,7 @@ jobs:
       - name: Add additional files
         run: |
           ls -al
-          tar -cf phpcodeserver.tar image.tar app config
+          tar -cf phpcodeserver.tar image.tar app config update-codeserver.sh docker-compose.yml
 
       - name: Compress Docker image and additional files
         run: |

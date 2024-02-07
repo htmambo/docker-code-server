@@ -53,7 +53,7 @@ if [ ! -f /app/code-server/bin/code-server ]; then
     CODE_RELEASE=$(curl -sX GET https://api.github.com/repos/coder/code-server/releases/latest | awk '/tag_name/{print $4;exit}' FS='[""]' | sed 's|^v||')
     echo "The latest version number is: $CODE_RELEASE"
     # 下载最新版本的 code-server
-    curl -o /tmp/code-server.tar.gz -L "https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz"
+    curl -o /tmp/code-server.tar.gz -L "https://mirror.ghproxy.com/https://github.com/coder/code-server/releases/download/v${CODE_RELEASE}/code-server-${CODE_RELEASE}-linux-amd64.tar.gz"
 
     # 如果下载成功，那么更新版本文件
     if [ $? -eq 0 ]; then
