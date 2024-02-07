@@ -23,14 +23,14 @@ ENV HOME="/config"
 
 RUN \
   echo "**** Replace source to China ****" && \
-  sudo sed -i 's/cn.archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
-  sudo sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+  sed -i 's/cn.archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
+  sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
+  apt-get update && \
   echo "**** install runtime dependencies ****" && \
   echo " ---- Install php-cs-fixer ----" && \
   curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.38.0/php-cs-fixer.phar -o /tmp/php-cs-fixer && \
   chmod a+x /tmp/php-cs-fixer && \
   mv /tmp/php-cs-fixer /usr/local/bin/php-cs-fixer && \
-  apt-get update && \
   apt-get install -y --no-install-recommends \
     php-cli php-mysql php-curl php-dev php-gd php-mbstring php-xml php-xmlrpc php-zip php-bcmath php-dom && \
   apt-get install -y git subversion php-codesniffer \
@@ -53,11 +53,27 @@ RUN \
     /var/lib/apt/lists/* \
     /var/tmp/* && \
   echo "**** install oh-my-zsh ****" && \
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
-  chsh -s /bin/zsh
+  wget https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh && \
+  sed -i 's#ohmyzsh/ohmyzsh#mirrors/oh-my-zsh#g' install.sh && \
+  sed -i 's#https://github.com/#https://gitee.com/#g' install.sh && \
+  chmod +x install.sh && \
+  ./install.sh && \
+  cd ~/.oh-my-zsh && \
+  git remote set-url origin https://gitee.com/mirrors/oh-my-zsh.git && \
+  git pull && \
+  cp -R ~/.oh-my-zsh /etc && \
+  sed -i 's|export ZSH="$HOME/.oh-my-zsh"|export ZSH="/etc/.oh-my-zsh"|' ~/.zshrc && \
+  sed -i 's|ZSH_THEME=".*"|ZSH_THEME="af-magic"|' ~/.zshrc && \
+  cp ~/.zshrc /etc/ && \
+  chsh -s /bin/zsh && \
+  chmod -R 777 /etc/.oh-my-zsh && \
+  ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 # add local files
 COPY ./root /
+
+RUN \
+  sed -i 's|export ZSH="$HOME/.oh-my-zsh"|export ZSH="/etc/.oh-my-zsh"|' /etc/.zshrc
 
 # ports and volumes
 EXPOSE 8443

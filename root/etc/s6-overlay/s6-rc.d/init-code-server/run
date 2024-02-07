@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-mkdir -p /config/{extensions,data,workspace,.ssh}
+mkdir -p /config/{extensions,data,workspace,.ssh,data/logs}
 
 if [ -n "${SUDO_PASSWORD}" ] || [ -n "${SUDO_PASSWORD_HASH}" ]; then
     echo "setting up sudo access"
@@ -23,6 +23,7 @@ fi
     cp /root/.profile /config/.profile
 
 # fix permissions (ignore contents of /config/workspace)
+chown -R abc:abc /config
 find /config -path /config/workspace -prune -o -exec chown abc:abc {} +
 chown abc:abc /config/workspace
 chmod 700 /config/.ssh
@@ -30,12 +31,19 @@ if [ -n "$(ls -A /config/.ssh)" ]; then
     chmod 600 /config/.ssh/*
 fi
 
+#if [ ! -f /config/.oh-my-zsh/oh-my-zsh.sh ]; then
+#    cd /config
+#    echo "**** install oh-my-zsh ****"
+#    cp -R /etc/.oh-my-zsh ./
+#    chmod -R 777 ./oh-my-zsh
+#fi
+
 [[ ! -f /config/.zshrc ]] && \
     cp /etc/.zshrc /config/.zshrc
-[[ ! -f /config/.oh-my-zsh/oh-my-zsh.sh ]] && \
-    cd /config && \
-    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" && \
+
+if ! grep -q 'ZSH_DISABLE_COMPFIX="true"' /config/.zshrc; then
     sed -i '1iZSH_DISABLE_COMPFIX="true"' /config/.zshrc
+fi
 
 if [ ! -f /app/code-server/bin/code-server ]; then
     # 文件名用于存储上次下载的版本号
@@ -51,7 +59,10 @@ if [ ! -f /app/code-server/bin/code-server ]; then
     if [ $? -eq 0 ]; then
         rm -rf /app/code-server
         mkdir -p /app/code-server
+        chown -R abc:abc /app
         tar xf /tmp/code-server.tar.gz -C /app/code-server --strip-components=1
+        chown -R abc:abc /app
+        chmod -R 777 /app
         echo $CODE_RELEASE > $VERSION_FILE
         echo "Successfully downloaded code-server version $CODE_RELEASE and updated the version file."
     else

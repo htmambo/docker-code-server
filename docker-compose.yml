@@ -1,16 +1,16 @@
 version: "2.1"
 services:
   phpcodeserver:
-    image: hoping/phpcodeserver:1.0.0
+    image: phpcodeserver:latest
     container_name: phpcodeserver
     hostname: phpcodeserver
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Asia/Shanghai
-      - PASSWORD=W5Y!bR33CR5c9M #optional
+      - PASSWORD=123456 #optional
       - HASHED_PASSWORD= #optional
-      - SUDO_PASSWORD=asdfasdf #optional
+      - SUDO_PASSWORD=123456 #optional
       - SUDO_PASSWORD_HASH= #optional
       #- PROXY_DOMAIN=code-server.my.domain #optional
       - DEFAULT_WORKSPACE=/config/workspace #optional
