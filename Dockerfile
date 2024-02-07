@@ -22,6 +22,9 @@ ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
 RUN \
+  echo "**** Replace source to China ****" && \
+  sudo sed -i 's/cn.archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
+  sudo sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list && \
   echo "**** install runtime dependencies ****" && \
   echo " ---- Install php-cs-fixer ----" && \
   curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.38.0/php-cs-fixer.phar -o /tmp/php-cs-fixer && \
